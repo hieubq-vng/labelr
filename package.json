@@ -1,0 +1,23 @@
+{
+  "name": "labelr",
+  "version": "1.0.0",
+  "description": "labelr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hieubq-vng/labelr.git"
+  },
+  "author": "hieubq",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hieubq-vng/labelr/issues"
+  },
+  "homepage": "https://github.com/hieubq-vng/labelr#readme",
+  "dependencies": {
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
+  }
+}
