@@ -9,6 +9,18 @@ import Layout from './layout'
 import PublicPage from './pages/public'
 import ReposPage from './pages/repos'
 import ReposDetailPage from './pages/repo-detail'
+import MessagePage from './pages/message'
+import config from './config'
+
+function requiresAuth (handlerName) {
+  return function () {
+    if (app.me.token) {
+      this[handlerName].apply(this, arguments)
+    } else {
+      this.redirectTo('/logout')
+    }
+  }
+}
 
 export default Router.extend({
   renderPage (page, opts = {layout: true}) {
@@ -24,11 +36,12 @@ export default Router.extend({
 
   routes: {
     '': 'public',
-    'repos': 'repos',
+    'repos': requiresAuth('repos'),
     'login': 'login',
     'auth/callback?:query': 'authCallback',
     'logout': 'logout',
-    'repos/:owner/:name': 'repoDetail'
+    'repos/:owner/:name': requiresAuth('repoDetail'),
+    '*fourOhfour': 'forOhfour'
   },
 
   public () {
@@ -48,7 +61,7 @@ export default Router.extend({
 
   login () {
     window.location = 'https://github.com/login/oauth/authorize?' + qs.stringify({
-      client_id: 'b93da229a8b6eec7da46',
+      client_id: config.clientId,
       redirect_uri: window.location.origin + '/auth/callback',
       scope: 'user, repo'
     })
@@ -58,7 +71,7 @@ export default Router.extend({
     query = qs.parse(query)
     console.log(query)
     xhr({
-      url: 'https://hieubq-gatekeeper.herokuapp.com/authenticate/' + query.code,
+      url: config.authUrl + query.code,
       json: true
     }, (err, req, body) => {
       console.log(body)
@@ -66,11 +79,16 @@ export default Router.extend({
       app.router.history.navigate('/repos', {replace: true})
 // this.redirectTo('/repos')
     })
+    this.renderPage(<MessagePage title='Fetching your data' />)
   },
 
   logout () {
     window.localStorage.clear()
     window.location = '/'
+  },
+
+  forOhfour () {
+    this.renderPage(<MessagePage title='Not Found' body='sorry nothing here' />)
   }
 
 })

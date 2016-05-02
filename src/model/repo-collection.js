@@ -6,7 +6,7 @@ import githubMixin from '../helper/github-mixin'
 export default Collection.extend(githubMixin, {
   initialize () {
     setInterval(() => {
-      if (app.me.token !== undefined) {
+      if (app.me.token) {
         this.fetch()
       }
     }, 5000) // 5 giay get lai 1 lan
