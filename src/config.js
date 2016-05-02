@@ -8,6 +8,6 @@ const config = {
     authUrl: 'https://hieubq-surge-label.herokuapp.com/authenticate/',
     clientId: '1263095717447ada41ff'
   }
-}[location.hostname]
+}[window.location.hostname]
 
 export default config

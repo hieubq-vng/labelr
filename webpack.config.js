@@ -27,7 +27,13 @@ module.exports = getConfig({
     ]
   },
   plugins: [
-  	new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.UglifyJsPlugin()
-  ]
+  ],
+  html: function (context) {
+    return {
+      'index.html': context.defaultTemplate(),
+      '200.html': context.defaultTemplate()
+    }
+  }
 })
